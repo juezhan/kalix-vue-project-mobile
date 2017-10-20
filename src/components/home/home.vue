@@ -1,105 +1,54 @@
 <template lang="pug">
   div.home
-    div.item(v-for="item in treeData" v-bind:key="item.id")
-      div.s-flex.title(@click="onShowTree(item)")
-        div.s-flex_item
-          i.icon(:class="item.iconCls")
-          |{{item.text}}
-        i.mini-icon(:class="{'el-icon-arrow-right':!item.isShow,'el-icon-arrow-down':item.isShow}")
-      div.content(v-if="item.isShow")
-        ul
-          li.cell(v-for="item in item.children" v-bind:key="item.id")
-            i.icon(:class="item.iconCls")
-            |{{item.text}}
-
+    kalix-header(:title="title")
+    component(:is="which_to_show")
 </template>
 <script type="text/ecmascript-6">
-  import Vue from 'vue'
   import Cache from 'common/cache'
-  import {cacheTime, systemApplicationsBaseURL} from 'config/global.toml'
+  import KalixHeader from 'base/KalikHeader'
+  import Welcome from '@/views/admin/welcome'
+
+  const _import = require('@/api/_import_' + process.env.NODE_ENV)
+  let content = {
+    Welcome
+  }
 
   export default {
     data() {
       return {
-        treeData: []
+        title: '',
+        which_to_show: 'Welcome'
       }
     },
     mounted() {
       this.fetchData()
     },
+    watch: {'$route': 'fetchData'},
     methods: {
-      fetchData(appId) {
+      fetchData() {
         if (this.$route.name === 'login') {
           return
         }
-        if (!appId) {
-          let toolListData = JSON.parse(Cache.get('toolListData'))
-          if (!toolListData) {
-            return
-          }
-        }
-        let d = new Date()
-        let cd = d.getTime()
-        let treeListData = {}
-        this.currApp = this.$route.params.app
-        this.currFun = this.$route.params.fun || ''
-        if (Cache.get('treeListData')) {
-          treeListData = JSON.parse(Cache.get('treeListData'))
-        }
-        if (treeListData.createDate && (treeListData.createDate - cd) < cacheTime && treeListData[this.currApp]) {
-          this.treeData = treeListData[this.currApp]
+        let currentTreeListItem = JSON.parse(Cache.get('currentTreeListItem'))
+        this.title = currentTreeListItem.text
+
+        let app = this.$route.params.app // 应用名称
+        let fun = this.$route.params.fun // 功能名称
+        if (fun !== undefined) {
+          this.which_to_show = _import(`${app}/${fun.toLowerCase()}/${fun.toLowerCase()}`)
         } else {
-          const data = {_dc: cd, node: 'root'}
-          Vue.axios({
-            url: systemApplicationsBaseURL + this.currApp,
-            method: 'get',
-            params: data
-          }).then(response => {
-            console.log('response', response)
-            let nowDate = new Date()
-            if (response.data && response.data.code !== 401) {
-              this.treeData = response.data
-              if (this.treeData.length) {
-                this.treeData.forEach(function (e, i) {
-                  Vue.set(e, 'isShow', false)
-                })
-                treeListData[this.currApp] = this.treeData
-                treeListData.createDate = nowDate.getTime()
-                Cache.save('treeListData', JSON.stringify(treeListData))
-              }
-            }
-          })
+          this.which_to_show = (content[fun]) ? fun : 'Welcome'
         }
-      },
-      onShowTree(item) {
-        item.isShow = !item.isShow
       }
     },
-    components: {}
+    components: {
+      KalixHeader,
+      Welcome,
+      KalixContent: content
+    }
   }
 </script>
 <style scoped lang="stylus" type="text/stylus">
   @import "~common/stylus/border"
-  .home
-    .item
-      position relative
-      padding 8px 12px
-      &:after
-        setBottomLine()
-      .title
-        font-size 16px
-        line-height 34px
-        .icon
-          font-size 30px
-          margin-right 12px
-      .mini-icon
-        font-size 10px
-      .content
-        padding-left 42px
-        .cell
-          line-height 30px
-          .icon
-            font-size 24px
-            margin-right 12px
-
+  @import "~common/stylus/variable"
 </style>

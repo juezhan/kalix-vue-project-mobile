@@ -1,0 +1,45 @@
+@font-face {
+  font-family: 'kalix-mobile-iconfont';  /* project id 446525 */
+  src: url('//at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.eot');
+  src: url('//at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.woff') format('woff'),
+  url('//at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.svg#kalix-mobile-iconfont') format('svg');
+}
+
+.kalix-mobile-iconfont {
+  font-family: "kalix-mobile-iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.kalix-mobile-icon-startfavorite1:before {
+  content: "\e701";
+}
+
+.kalix-mobile-icon-xuanzhong:before {
+  content: "\e624";
+}
+
+.kalix-mobile-icon-start:before {
+  content: "\e614";
+}
+
+.kalix-mobile-icon-wode1:before {
+  content: "\e63d";
+}
+
+.kalix-mobile-icon-xuanzhong1:before {
+  content: "\e629";
+}
+
+.kalix-mobile-icon-shouye:before {
+  content: "\e67d";
+}
+
+.kalix-mobile-icon-anpaihuiyi:before {
+  content: "\e665";
+}
+

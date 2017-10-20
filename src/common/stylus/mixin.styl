@@ -20,3 +20,16 @@ extend-click()
     left: -10px
     right: -10px
     bottom: -10px
+
+ellipsis(r = 1)
+  overflow hidden
+  text-overflow ellipsis
+  display: -webkit-box;
+  -webkit-line-clamp: r;
+  -webkit-box-orient: vertical;
+
+justify(p = center)
+  justify-content p
+
+align(p = center)
+  align-items p

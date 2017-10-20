@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Cache from 'common/cache'
 
 Vue.use(Router)
 
@@ -14,8 +15,10 @@ Vue.use(Router)
 const Login = () => import('components/login/login')
 const Home = () => import('components/home/home')
 const Welcome = () => import('components/welcome/welcome')
+const Navigater = () => import('components/navigater/navigater')
 
-export default new Router({
+const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -32,13 +35,22 @@ export default new Router({
       component: Welcome
     },
     {
-      path: '/',
+      path: '/:app',
+      name: 'navigater',
+      component: Navigater
+    },
+    {
+      path: '/:app/:fun',
       name: 'home',
-      component: Home,
-      children: [
-        {path: '/:app', name: 'header', component: Home},
-        {path: '/:app/:fun', name: 'navigater', component: Home}
-      ]
+      component: Home
     }
   ]
 })
+router.beforeEach((to, from, next) => {
+  if (Cache.get('id') === null && to.name !== 'login') {
+    next({path: '/login'})
+  }
+  next()
+})
+
+export default router

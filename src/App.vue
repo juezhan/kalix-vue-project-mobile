@@ -1,5 +1,5 @@
 <template>
-  <div id="app" @touchmove.prevent>
+  <div id="app">
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
@@ -8,6 +8,7 @@
 
 <script type="text/ecmascript-6">
   import 'common/css/icon-font.css'
+  import 'common/css/mobile-font.css'
   import MHeader from 'components/m-header/m-header'
   import Player from 'components/player/player'
   import Tab from 'components/tab/tab'

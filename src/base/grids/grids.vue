@@ -1,13 +1,11 @@
 <template>
   <div class="grids">
-    <router-link :tag="tag" :to="{path:'/'+item.id}" :key="index" class="grids-item"
-                 v-for="(item,index) in dataSource">
+    <div :key="index" class="grids-item"
+         v-for="(item,index) in dataSource">
       <div class="grids-item-wrapper">
-        <div class="grids-item-content">
-          <slot :item="item"></slot>
-        </div>
+        <slot :item="item"></slot>
       </div>
-    </router-link>
+    </div>
     <div class="grids-item" v-for="(item,index) in data">
       <div class="grids-item-wrapper">
         <div class="grids-item-content"></div>

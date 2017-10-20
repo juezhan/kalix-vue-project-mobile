@@ -3,9 +3,10 @@
     kalix-header
     kalix-grids(v-if="menuList.length" v-bind:data-source="menuList")
       template(scope="scope")
-        div
-          i.icon(:class="scope.item.iconCls")
-          div.text {{scope.item.text}}
+        div.grids-item-content
+          router-link(tag="div" v-bind:to="{path:'/'+scope.item.id}")
+            i.icon(v-bind:class="scope.item.iconCls")
+            div.text {{scope.item.text}}
     div(v-else) 没有模块
 </template>
 <script type="text/ecmascript-6">
@@ -23,14 +24,14 @@
       }
     },
     mounted() {
-      console.log('asdf')
-      this.initMenu()
+      this.fetchData()
     },
+    watch: {'$route': 'fetchData'},
     methods: {
-      initMenu() {
+      fetchData() {
         let d = new Date()
         let cd = d.getTime()
-        let toolListData = {}
+        let toolListData = []
         if (Cache.get('toolListData')) {
           toolListData = JSON.parse(Cache.get('toolListData'))
         }
@@ -38,6 +39,7 @@
           this.menuList = toolListData
         } else {
           const data = {
+            jsonStr: '{"supportMobile":true}',
             _dc: cd,
             page: 1,
             start: 0,
@@ -47,9 +49,11 @@
             params: data
           }).then(response => {
             if (response && response.data) {
-              this.menuList = response.data
-              toolListData.data = this.menuList
-              Cache.save('toolListData', JSON.stringify(toolListData.data))
+              toolListData = response.data.filter(item => {
+                return item.supportMobile
+              })
+              this.menuList = toolListData
+              Cache.save('toolListData', JSON.stringify(toolListData))
             }
           })
         }

@@ -9,7 +9,8 @@ import VueAxios from 'vue-axios'
 import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-
+import Mint from 'mint-ui'
+import 'mint-ui/lib/style.css'
 import 'common/stylus/index.styl'
 
 /* eslint-disable no-unused-vars */
@@ -19,6 +20,7 @@ fastclick.attach(document.body)
 
 Vue.use(VueAxios, axios)
 Vue.use(ElementUI)
+Vue.use(Mint)
 
 Vue.use(VueLazyload, {
   loading: require('common/image/default.png')
