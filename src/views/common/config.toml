@@ -68,9 +68,9 @@ ReceiverURL = "/camel/rest/messages/receiver"
 [[ReceiverComponent]]
   path = "common/receiver/receiverAdd"
   name = "CommonReceiverAdd"
-[[ReceiverComponent]]
-  path = "common/receiver/receiverSearch"
-  name = "CommonReceiverSearch"
+# [[ReceiverComponent]]
+#   path = "common/receiver/receiverSearch"
+#   name = "CommonReceiverSearch"
 
 # table 的默认按钮定义
 [[ToolButtonList]]

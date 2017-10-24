@@ -9,9 +9,9 @@
     template(v-for="btn in btnList")
       template(v-if="btn.isShow")
         template(v-if="btn.titleCompute")
-          mt-button.table-tool_btn(v-if="!btn.cond || btn.cond(scope)" v-on:click="toggle(scope.row,btn.id)") {{btn.titleCompute(scope)}}
+          mt-button.table-tool_btn(v-if="!btn.cond || btn.cond(scope)" v-on:click="toggle(scope,btn.id)") {{btn.titleCompute(scope)}}
         template(v-else)
-          mt-button.table-tool_btn(v-if="!btn.cond || btn.cond(scope)" v-on:click="toggle(scope.row,btn.id)" size="small") {{btn.title}}
+          mt-button.table-tool_btn(v-if="!btn.cond || btn.cond(scope)" v-on:click="toggle(scope,btn.id)" size="small") {{btn.title}}
 </template>
 
 <script type="text/ecmascript-6">
@@ -19,6 +19,9 @@
 
   export default {
     props: {
+      scope: {
+        type: Object
+      },
       isFixedColumn: {
         type: Boolean,
         default: false
@@ -67,6 +70,6 @@
   .table-tool
     text-align right
     .table-tool_btn
-      &+.table-tool_btn
+      & + .table-tool_btn
         margin-left 12px
 </style>

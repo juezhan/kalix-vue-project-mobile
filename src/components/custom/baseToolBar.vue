@@ -8,7 +8,7 @@
   div.kalix-base-tool-bar
     div.s-flex.kalix-base-tool-bar-wrapper
       div.checkbox-wrapper
-        kalix-checkbox(v-model="checkedAll" text="全选")
+        kalix-checkbox(v-model="checkedAll" text="全选" )
       div.s-flex_item
         template(v-for="btn in defaultBtnList")
           mt-button.kalix-btn(v-if="btn.isShow" v-on:click="toggle(btn.id)" size="small") {{btn.title}}
@@ -41,10 +41,17 @@
       },
       toggle(btnId) {
         this.$emit(ON_TOOLBAR_CLICK, btnId)
+      },
+      onCheckedAll() {
       }
     },
     components: {
       KalixCheckbox
+    },
+    watch: {
+      checkedAll(newValue) {
+        this.$emit('checkedAll', newValue)
+      }
     }
   }
 </script>
@@ -67,6 +74,6 @@
         &:after
           setRightLine()
       .kalix-btn
-        &+.kalix-btn
+        & + .kalix-btn
           margin-left 12px
 </style>

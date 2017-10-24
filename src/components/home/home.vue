@@ -5,7 +5,7 @@
 </template>
 <script type="text/ecmascript-6">
   import Cache from 'common/cache'
-  import KalixHeader from 'base/KalikHeader'
+  import KalixHeader from 'base/KalixHeader'
   import Welcome from '@/views/admin/welcome'
 
   const _import = require('@/api/_import_' + process.env.NODE_ENV)
@@ -51,4 +51,6 @@
 <style scoped lang="stylus" type="text/stylus">
   @import "~common/stylus/border"
   @import "~common/stylus/variable"
+  .home
+    padding-top 40px
 </style>

@@ -15,7 +15,7 @@
 <script type="text/ecmascript-6">
   import Vue from 'vue'
   import Cache from 'common/cache'
-  import KalixHeader from 'base/KalikHeader'
+  import KalixHeader from 'base/KalixHeader'
   import {cacheTime, systemApplicationsBaseURL} from 'config/global.toml'
 
   export default {
@@ -93,6 +93,7 @@
 <style scoped lang="stylus" type="text/stylus">
   @import "~common/stylus/border"
   @import "~common/stylus/variable"
+  @import "~common/stylus/mixin"
   .navigater
     .item
       position relative
@@ -121,6 +122,7 @@
           position relative
           padding 8px 0
           line-height 32px
+          align()
           &:after
             setBottomLine()
           &:last-child
