@@ -5,17 +5,18 @@
     div.kalix-base_dialog_wrapper
       slot(name="dialogFormSlot")
     div.kalix-base_dialog_ft
-      div.kalix-base_dialog_ft_wrapper
+      flexbox(v-bind:gutter="12")
         template(v-if="isView")
-          div.kalix-base_dialog_ft_wrapper_cell
-            mt-button.kalix-base_dialog_ft_btn(type="primary" v-on:click="onCancelClick") 关 闭
+          flexbox-item
+            x-button(type="primary" v-on:click="onCancelClick") 关 闭
         template(v-else)
-          div.kalix-base_dialog_ft_wrapper_cell
-            mt-button.kalix-base_dialog_ft_btn(v-on:click="onCancelClick") 取 消
-          div.kalix-base_dialog_ft_wrapper_cell
-            mt-button.kalix-base_dialog_ft_btn(type="primary" v-on:click="onSubmitClick") 提 交
+          flexbox-item
+            x-button(type="default" v-on:click="onCancelClick") 取 消
+          flexbox-item
+            x-button(type="primary" v-on:click="onSubmitClick") 提 交
 </template>
 <script type="text/ecmascript-6">
+//  import {XButton, Flexbox, FlexboxItem} from 'vux'
   import KalixHeader from 'base/KalixHeader'
 
   export default {
@@ -70,7 +71,7 @@
 //      EventBus.$on(this.bizKey + '-' + ON_INIT_DIALOG_DATA, this.initData)
     },
     components: {
-      KalixHeader
+      KalixHeader//, XButton, Flexbox, FlexboxItem
     }
   }
 </script>

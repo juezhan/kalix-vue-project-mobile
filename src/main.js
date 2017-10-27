@@ -12,6 +12,7 @@ import 'element-ui/lib/theme-default/index.css'
 import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import 'common/stylus/index.styl'
+import './vux'
 
 /* eslint-disable no-unused-vars */
 // import vConsole from 'vconsole'
@@ -33,3 +34,4 @@ new Vue({
   store,
   render: h => h(App)
 })
+

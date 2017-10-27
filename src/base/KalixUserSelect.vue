@@ -1,6 +1,9 @@
 <template lang="pug">
   div.kalix-user_select
-    input(type="text" v-bind:placeholder="placeholder")
+    div
+      input(type="text" v-bind:placeholder="placeholder" v-model="currentValue")
+    div.mask
+
 </template>
 <script type="text/ecmascript-6">
   import {usersURL} from 'views/admin/config.toml'
@@ -28,7 +31,7 @@
       return {
         userList: [],
         loading: false,
-        currentValue: this.value,
+        currentValue: '',
         selectUser: {}
       }
     },

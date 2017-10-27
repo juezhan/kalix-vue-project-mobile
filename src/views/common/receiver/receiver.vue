@@ -6,7 +6,7 @@
     v-bind:bizDialog="bizDialog"
     v-bind:toolbarBtnList="toolbarBtnList"
     v-bind:btnList="btnList" )
-      template(slot="tableColumnSlot" scope="scope")
+      template(slot="tableColumnSlot" slot-scope="scope")
         div.s-flex.row
           div.cell-label 标题：
           div.s-flex_item {{scope.item.title}}

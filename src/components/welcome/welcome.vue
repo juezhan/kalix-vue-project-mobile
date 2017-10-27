@@ -2,7 +2,7 @@
   div.welcome
     kalix-header
     kalix-grids(v-if="menuList.length" v-bind:data-source="menuList")
-      template(scope="scope")
+      template(slot-scope="scope")
         div.grids-item-content
           router-link(tag="div" v-bind:to="{path:'/'+scope.item.id}")
             i.icon(v-bind:class="scope.item.iconCls")
