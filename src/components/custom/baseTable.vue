@@ -24,6 +24,11 @@
   import KalixBaseTableTool from 'components/custom/baseTableTool.vue'
   import KalixBaseToolBar from 'components/custom/baseToolBar.vue'
   import {PageConfig, SecurityBtnUrl} from 'config/global.toml'
+  import EventBus from 'common/js/eventbus'
+  import {
+    ON_SEARCH_BUTTON_CLICK,
+    ON_REFRESH_DATA
+  } from './event.toml'
 
   export default {
     props: {
@@ -135,6 +140,22 @@
     created() {
       this.getData()
     },
+    activated() {
+      console.log(this.bizKey + '  is activated')
+      EventBus.$on(ON_SEARCH_BUTTON_CLICK, this.onSearchClick)
+      EventBus.$on(ON_REFRESH_DATA, this.refresh)
+    },
+    deactivated() {
+      console.log(this.bizKey + '  is deactivated')
+      EventBus.$off(ON_SEARCH_BUTTON_CLICK)
+      EventBus.$off(ON_REFRESH_DATA)
+    },
+    mounted() {
+      EventBus.$on(this.bizKey + '-' + 'KalixDialogClose', () => {
+//        console.log(`%c[kalix] reset ${this.bizKey} whichBizDialog`, 'background: #222;color: #bada55')
+        this.whichBizDialog = ''
+      })
+    },
     methods: {
       getData() {
         this.loading = true
@@ -156,6 +177,7 @@
         }).catch(() => {
           this.loading = false
           console.log('this.loading = false', this.tableData.length)
+          this.$router.push({path: '/login'})
         })
         this._validateButton()
       },
@@ -296,6 +318,13 @@
           }
 //          console.log(`[Kalix] table tool button list is `, this.btnList)
         }
+      },
+      onRefreshClick() { // 刷新按钮点击事件
+        this.getData()
+      },
+      refresh() { // 刷新表格数据
+        console.log('[kalix] ' + this.title + ' refresh is trigger!')
+        this.getData()
       }
     },
     components: {

@@ -1,9 +1,20 @@
 <template lang="pug">
   div.kalix-user_select
-    div
-      input(type="text" v-bind:placeholder="placeholder" v-model="currentValue")
-    div.mask
-
+    flexbox(v-on:click.native="showParn")
+      flexbox-item.user-select-item
+        div.item(v-for="(item,index) in selectedItem" v-bind:key="item.id")
+          div.weui-btn.weui-btn_mini.weui-btn_default {{item.name}}
+          i.item-close(v-on:click.stop="closeItem(item)")
+            x-icon.item-close-icon(type="ios-close" size="12")
+      x-button.user-select-btn_search(mini v-on:click.native="showParn")
+        x-icon(type="ios-search-strong" size="24")
+    popup(v-model="showPopup" height="100%" ref="popup" v-bind:show-mask="false")
+      group
+        x-input(title="" ref="iptQuery" placeholder="请输入联系人" v-model="query" v-on:on-change="changeQuery")
+      group(title="联系人列表")
+        cell(v-for='item in userList' v-bind:title="item.name" v-bind:key="item.id" v-on:click.native="selectItem(item)")
+          icon(type="success-no-circle")
+      x-button(v-on:click.native="closePopup") 关闭
 </template>
 <script type="text/ecmascript-6">
   import {usersURL} from 'views/admin/config.toml'
@@ -29,10 +40,13 @@
     },
     data() {
       return {
+        showPopup: false,
         userList: [],
         loading: false,
         currentValue: '',
-        selectUser: {}
+        query: '',
+        selectUser: {},
+        selectedItem: []
       }
     },
     created() {
@@ -119,6 +133,66 @@
         } else {
           this.userList = []
         }
+      },
+      showParn() {
+        this.showPopup = true
+        setTimeout(() => {
+          this.$refs.iptQuery.focus()
+        }, 200)
+      },
+      closePopup() {
+        this.showPopup = false
+      },
+      changeQuery() {
+        if (this.query !== '') {
+          this.loading = true
+          setTimeout(() => {
+            this.loading = false
+            let _jsonStr = {'%name%': this.query}
+            _jsonStr = Object.assign(_jsonStr, this.params)
+            let _data = {
+              jsonStr: JSON.stringify(_jsonStr),
+              page: 1,
+              start: 0,
+              limit: 200
+            }
+            this.axios.get(usersURL, {
+              params: _data
+            }).then(response => {
+              this.userList = response.data.data
+              console.log(this.userList)
+            })
+          }, 100)
+        } else {
+          this.userList = []
+        }
+      },
+      selectItem(item) {
+        this.selectedItem.push(item)
+        this.query = ''
+        this.currentValue = item.id
+
+        let _userNames = []
+        let _userIds = []
+        if (this.selectedItem.length > 1) {
+          this.selectedItem.forEach(e => {
+            _userIds.push(e.id)
+            _userNames.push(e.name)
+          })
+        } else {
+          _userIds = this.selectedItem[0].id
+          _userNames = this.selectedItem[0].name
+        }
+        this.$emit('update:userNames', _userNames)
+        this.$emit('update:userIds', _userIds)
+
+        this.closePopup()
+      },
+      closeItem(item) {
+        let index = this.selectedItem.findIndex(e => {
+          return e.id === item.id
+        })
+        this.selectedItem.splice(index, 1)
       }
     },
     watch: {
@@ -130,5 +204,25 @@
 </script>
 <style scoped lang="stylus" type="text/stylus">
   .kalix-user_select
-    margin 0
+    .user-select-item
+      width 100%
+      min-height 1.4em
+      font-size 0;
+      .item
+        position relative
+        display inline-block
+        margin 0 10px 10px 0
+        .item-close
+          position: absolute;
+          line-height 0px
+          padding: 6px;
+          border-radius: 50%;
+          top: -12px;
+          right: -12px;
+          .item-close-icon
+            fill: #ff0000
+
+    .user-select-btn_search
+      font-size 0;
+      padding 6px;
 </style>

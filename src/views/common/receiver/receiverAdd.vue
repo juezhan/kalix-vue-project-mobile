@@ -12,19 +12,10 @@
         cell-box
           flexbox
             label.weui-label(style="width:5em;") 收件人
-            flexbox-item(v-on:click.native="showParn")
-              div
-                div(v-for="(item,index) in selectedItem" v-key="item.id") {{item.name}}
+            flexbox-item
+              kalix-user-select(v-model="userList" v-bind:userIds.sync="receiverIds" )
         x-input(title="消息主题" v-model="formModel.title")
         x-textarea(title="消息内容" v-model="formModel.content" v-bind:rows="3" placeholder="请输入文本")
-      popup(v-model="showPopup" height="100%" ref="popup" v-bind:show-mask="false")
-        group
-          x-input(title="" ref="iptQuery" placeholder="请输入联系人" v-model="query" v-on:on-change="changeQuery")
-        group(title="联系人列表")
-          cell-box(v-for='item in userList' v-bind:key="item.id" v-on:click.native="selectItem(item)")
-            flexbox-item {{item.name}}
-            icon(type="success-no-circle")
-        x-button(v-on:click.native="closePopup") Close Popup
 </template>
 
 <script type="text/ecmascript-6">
@@ -32,8 +23,8 @@
   import KalixBaseDialog from 'components/custom/baseDialog'
   import KalixForm from 'base/KalixForm'
   import KalixFormCell from 'base/KalixFormCell'
+  import KalixUserSelect from 'base/KalixUserSelect'
   import {SenderURL} from '../config.toml'
-  import {usersURL} from 'views/admin/config.toml'
 
   export default {
     data() {
@@ -47,7 +38,8 @@
         query: '',
         userList: [],
         loading: false,
-        selectedItem: []
+        selectedItem: [],
+        receiverIds: []
       }
     },
     created() {
@@ -55,7 +47,8 @@
     components: {
       KalixBaseDialog,
       KalixForm,
-      KalixFormCell
+      KalixFormCell,
+      KalixUserSelect
     },
     methods: {
       open(title, flag, row) {
@@ -76,39 +69,15 @@
 //        let mask = document.getElementsByClassName('vux-popup-mask')[0]
 //        popup.insertBefore(mask, popup.childNodes[0])
 //        console.log(this.popupId)
-      },
-      closePopup() {
-        this.showPopup = false
-      },
-      changeQuery() {
-        if (this.query !== '') {
-          this.loading = true
-          setTimeout(() => {
-            this.loading = false
-            let _jsonStr = {'%name%': this.query}
-            _jsonStr = Object.assign(_jsonStr, this.params)
-            let _data = {
-              jsonStr: JSON.stringify(_jsonStr),
-              page: 1,
-              start: 0,
-              limit: 200
-            }
-            this.axios.get(usersURL, {
-              params: _data
-            }).then(response => {
-              this.userList = response.data.data
-              console.log(this.userList)
-            })
-          }, 100)
-        } else {
-          this.userList = []
-        }
-      },
-      selectItem(item) {
-        this.selectedItem.push(item)
-        this.closePopup()
+      }
+    },
+    watch: {
+      receiverIds(newValue) {
+        let value = [].concat(newValue)
+        this.formModel.receiverIds = value.join(':')
       }
     }
   }
 </script>
-
+<style scoped lang="stylus" type="text/stylus">
+</style>

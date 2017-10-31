@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  keep-alive
     kalix-base-table(bizKey="receiver" title='收件列表'
     ref="kalixTable"
     v-bind:targetURL="targetURL"
