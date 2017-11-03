@@ -7,15 +7,15 @@
   kalix-base-dialog(bizKey="receiver" ref="kalixBizDialog"
   v-bind:formModel.sync="formModel"
   v-bind:targetURL="targetURL")
-    div(slot="dialogFormSlot")
-      group
-        cell-box
-          flexbox
-            label.weui-label(style="width:5em;") 收件人
-            flexbox-item
-              kalix-user-select(v-model="userList" v-bind:userIds.sync="receiverIds" )
-        x-input(title="消息主题" v-model="formModel.title")
-        x-textarea(title="消息内容" v-model="formModel.content" v-bind:rows="3" placeholder="请输入文本")
+    div.kalix-cell(slot="dialogFormSlot")
+      el-form-item(label="收件人")
+        kalix-user-select(v-bind:params="params" style="width:100%"
+        v-model="receiverIds" v-bind:multiple="multiple"
+        v-on:userSelected="onUserSelected")
+      el-form-item(label="消息主题" prop="title" v-bind:rules="rules.title")
+        el-input(v-model="formModel.title")
+      el-form-item(label="消息内容" prop="content" v-bind:rules="rules.content")
+        el-input(v-model="formModel.content" type="textarea" v-bind:autosize="{ minRows: 4, maxRows: 8}")
 </template>
 
 <script type="text/ecmascript-6">
@@ -24,11 +24,14 @@
   import KalixForm from 'base/KalixForm'
   import KalixFormCell from 'base/KalixFormCell'
   import KalixUserSelect from 'base/KalixUserSelect'
+  //  import KalixUserSelect from 'components/biz/userselect/userselect'
   import {SenderURL} from '../config.toml'
 
   export default {
     data() {
       return {
+        params: {},
+        multiple: true,
         show: false,
         readonly: true,
         formModel: Object.assign({}, FormModel),
@@ -39,7 +42,12 @@
         userList: [],
         loading: false,
         selectedItem: [],
-        receiverIds: []
+        receiverIds: [],
+        rules: {
+          receiverIds: [{required: true, message: '请输入收件人', trigger: 'blur'}],
+          title: [{required: true, message: '请输入标题', trigger: 'blur'}],
+          content: [{required: true, message: '请输入内容', trigger: 'blur'}]
+        }
       }
     },
     created() {
@@ -51,6 +59,17 @@
       KalixUserSelect
     },
     methods: {
+      onUserSelected(users) {
+        console.log('onUserSelected', users)
+        let ids = []
+        let names = []
+        users.forEach(item => {
+          ids.push(item.id)
+          names.push(item.name)
+        })
+        this.formModel.receiverIds = ids.join(':')
+        this.formModel.receiverNames = names.join(',')
+      },
       open(title, flag, row) {
         this.show = true
         this.formModel = row

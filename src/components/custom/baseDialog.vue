@@ -4,7 +4,11 @@
       template(slot="left")
         div(v-on:click="onCancelClick") 关闭
     div.kalix-base_dialog_wrapper
-      slot(name="dialogFormSlot")
+      el-form(ref="dialogForm" v-bind:model="formModel" label-width="80px"
+      v-bind:inline-message="false"
+      v-bind:show-message="false"
+      )
+        slot(name="dialogFormSlot")
     div.kalix-base_dialog_ft
       flexbox(v-bind:gutter="12")
         template(v-if="isView")
@@ -17,6 +21,7 @@
             x-button(type="primary" v-on:click.native="onSubmitClick") 提 交
 </template>
 <script type="text/ecmascript-6">
+  import Message from 'common/js/message'
   import KalixHeader from 'base/KalixHeader'
   import EventBus from 'common/js/eventbus'
   import {ON_REFRESH_DATA} from './event.toml'
@@ -70,40 +75,42 @@
         this.close()
       },
       onSubmitClick() {
-        console.log('targetURL', this.targetURL)
-        this.axios.request({
-          method: this.isEdit ? 'PUT' : 'POST',
-          url: this.isEdit ? `${this.targetURL}/${this.formModel.id}` : this.targetURL,
-          data: this.formModel,
-          params: {}
-        }).then(response => {
-          console.log('response', response)
-          if (response.data.success) {
-//            Message.success(response.data.msg)
-            this.$vux.alert.show({
-              title: '消息',
-              content: response.data.msg,
-              onShow() {
-                console.log('Plugin: I\'m showing')
-              },
-              onHide() {
-                console.log('Plugin: I\'m hiding now')
-              }
-            })
-            this.visible = false
-            // 关闭对话框
+//        window.KalixDialog = this.$refs.dialogForm
+        this.$refs.dialogForm.validate((valid, b) => {
+          console.log('onSubmitClick this.$refs.dialogForm', this.$refs.dialogForm)
+          console.log('valid', valid)
+          if (valid) {
+            this.axios.request({
+              method: this.isEdit ? 'PUT' : 'POST',
+              url: this.isEdit ? `${this.targetURL}/${this.formModel.id}` : this.targetURL,
+              data: this.formModel,
+              params: {}
+            }).then(response => {
+              if (response.data.success) {
+                Message.success(response.data.msg)
+                this.visible = false
+                // 关闭对话框
 //                this.close()
-            // 清空form
+                // 清空form
 //                this.$parent.resetDialogForm()
 //                this.$emit('resetDialogForm')
+              } else {
+                Message.error(response.data.msg)
+              }
+              // 刷新列表
+              EventBus.$emit(ON_REFRESH_DATA)
+              this._afterDialogClose()
+              console.log('[kalix] dialog submit button clicked !')
+              this.visible = false
+            })
           } else {
-//            Message.error(response.data.msg)
+            let validateMessages = []
+            this.$refs.dialogForm.fields.forEach(e => {
+              validateMessages.push(e.validateMessage)
+            })
+            Message.error(validateMessages.join('<br/>'))
+            return false
           }
-          // 刷新列表
-          EventBus.$emit(ON_REFRESH_DATA)
-          this._afterDialogClose()
-          console.log('[kalix] dialog submit button clicked !')
-          this.visible = false
         })
       },
       _afterDialogClose() {

@@ -4,17 +4,19 @@
 开发日期：2017年7月14日
 -->
 <template lang="pug">
-  div.login
+  div.login(data-login)
     div.from-warpper
       div.form
         div.logo
-        el-form.loginForm(v-bind:model="loginForm" v-bind:rules="rules" ref="loginForm" )
-          el-form-item(label="账号" prop="name")
+        el-form.loginForm(v-bind:model="loginForm" v-bind:rules="rules" ref="loginForm")
+          el-form-item(label="" prop="name")
             el-input(v-model="loginForm.name")
-          el-form-item(label="密码" prop="pass")
+              i.icon-login-user(slot="prefix")
+          el-form-item(label="" prop="pass")
             el-input(type="password" v-model="loginForm.pass" auto-complete="off")
-          el-form-item(label=" ")
-            el-button.btn-submit(type="primary" v-on:click="onSubmit('loginForm')" size="large") 立即登录
+              i.icon-lock(slot="prefix")
+          el-form-item(label="")
+            el-button.btn-submit(v-on:click="onSubmit('loginForm')" size="large") 登录
 </template>
 
 <script type="text/ecmascript-6">
