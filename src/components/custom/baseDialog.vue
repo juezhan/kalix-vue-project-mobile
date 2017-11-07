@@ -66,6 +66,7 @@
       },
       close() {
         this.visible = false
+        this._afterDialogClose()
       },
       onClose() {
         this.close()
@@ -114,6 +115,7 @@
         })
       },
       _afterDialogClose() {
+        console.log('[After Dialog Close]:', this.bizKey + '-' + 'KalixDialogClose')
         EventBus.$emit(this.bizKey + '-' + 'KalixDialogClose')
       }
     },
@@ -138,7 +140,7 @@
     z-index 99
     background-color #fff
     .kalix-base_dialog_wrapper
-      padding-top 40px
+      padding-top 46px
     .kalix-base_dialog_ft
       position relative
       bottom 0

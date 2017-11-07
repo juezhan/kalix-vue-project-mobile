@@ -52,43 +52,43 @@ orgURL = "/camel/rest/orgs"
   isShow = true
   isPermission = true
 
-[[GlobalFilter]]
-  path = "./components/filters/dictFilter.js"
-  name = "getDictName"
+#[[GlobalFilter]]
+#  path = "./components/filters/dictFilter.js"
+#  name = "getDictName"
 
+#[[GlobalComponent]]
+#  path = "./views/demo/world"
+#  name = "contact-us"
+#[[GlobalComponent]]
+#  path = "./components/table/search"
+#  name = "kalix-search"
 [[GlobalComponent]]
-  path = "./views/demo/world"
-  name = "contact-us"
-[[GlobalComponent]]
-  path = "./components/table/search"
-  name = "kalix-search"
-[[GlobalComponent]]
-  path = "./components/table/dialog"
+  path = "./components/custom/baseDialog"
   name = "kalix-dialog"
-[[GlobalComponent]]
-  path = "./components/table/wrapper"
-  name = "kalix-wrapper"
-[[GlobalComponent]]
-  path = "./views/admin/user/userAdd"
-  name = "KalixUserAdd"
-[[GlobalComponent]]
-  path = "./views/admin/user/userEdit"
-  name = "KalixUserEdit"
-[[GlobalComponent]]
-  path = "./views/admin/user/userSearch"
-  name = "userSearch"
-# 附件管理
-[[GlobalComponent]]
-  path = "./components/custom/baseAttachmentDialog"
-  name = "AttachmentDialog"
-# 附件上传
-[[GlobalComponent]]
-  path = "./components/custom/baseUpload"
-  name = "kalixUpload"
-# 注册全局组件-组织机构树控件
-[[GlobalComponent]]
-  path = "./components/tree/basetree2"
-  name = "orgTree"
+#[[GlobalComponent]]
+#  path = "./components/table/wrapper"
+#  name = "kalix-wrapper"
+#[[GlobalComponent]]
+#  path = "./views/admin/user/userAdd"
+#  name = "KalixUserAdd"
+#[[GlobalComponent]]
+#  path = "./views/admin/user/userEdit"
+#  name = "KalixUserEdit"
+#[[GlobalComponent]]
+#  path = "./views/admin/user/userSearch"
+#  name = "userSearch"
+## 附件管理
+#[[GlobalComponent]]
+#  path = "./components/custom/baseAttachmentDialog"
+#  name = "AttachmentDialog"
+## 附件上传
+#[[GlobalComponent]]
+#  path = "./components/custom/baseUpload"
+#  name = "kalixUpload"
+## 注册全局组件-组织机构树控件
+#[[GlobalComponent]]
+#  path = "./components/tree/basetree2"
+#  name = "orgTree"
 
 # baseToolBar 的默认按钮定义
 [[GlobalToolBarButtonList]]

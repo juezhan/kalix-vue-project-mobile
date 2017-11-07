@@ -22,14 +22,16 @@ const webpackConfig = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
+      'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
-      'common': resolve('src/common'),
-      'components': resolve('src/components'),
-      'base': resolve('src/base'),
-      'config': resolve('src/config'),
-      'router': resolve('src/router'),
-      'assets': resolve('src/assets'),
       'api': resolve('src/api'),
+      'base': resolve('src/base'),
+      'components': resolve('src/components'),
+      'common': resolve('src/common'),
+      'mock': resolve('src/mock'),
+      'config': resolve('src/config'),
+      'store': resolve('src/store'),
+      'router': resolve('src/router'),
       'views': resolve('src/views')
     }
   },

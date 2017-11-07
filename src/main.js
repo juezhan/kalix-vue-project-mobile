@@ -13,6 +13,7 @@ import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import 'common/stylus/index.styl'
 import './vux'
+import {GlobalComponent} from 'config/global.toml'
 
 /* eslint-disable no-unused-vars */
 // import vConsole from 'vconsole'
@@ -26,6 +27,16 @@ Vue.use(Mint)
 Vue.use(VueLazyload, {
   loading: require('common/image/default.png')
 })
+// 注册全局组件
+GlobalComponent.forEach((item) => {
+  console.log('[kalix]-[main.js] registry component name is: ' + item.name, '; registry path is: ' + item.path)
+  Vue.component(item.name, require('' + item.path).default)
+})
+// 注册全局过滤器
+// GlobalFilter.forEach((item) => {
+//   console.log('[kalix]-[main.js] registry filter name is: ' + item.name, '; registry path is: ' + item.path)
+//   Vue.filter(item.name, require('' + item.path).default)
+// })
 
 /* eslint-disable no-new */
 new Vue({

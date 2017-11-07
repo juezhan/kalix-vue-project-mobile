@@ -2,7 +2,8 @@
   div.kalix-base-table
     kalix-base-tool-bar(
     v-on:checkedAll="onCheckedAll"
-    v-on:onToolBarClick="onToolBarClick")
+    v-on:onToolBarClick="onToolBarClick"
+    v-bind:toolbarBtnList="toolbarBtnList")
     div.kalix-base-table-wrapper
       template(v-for="(item,index) in tableData")
         div.cell
@@ -12,11 +13,15 @@
             div.s-flex_item 行号：{{item.rowNumber}}
           slot(name="tableColumnSlot" v-bind:item="item")
           div.row
-            kalix-base-table-tool(v-bind:btnList="btnList" v-on:onTableToolBarClick="btnClick" v-bind:scope="item")
+            kalix-base-table-tool(
+            v-bind:btnList="btnList"
+            v-on:onTableToolBarClick="btnClick"
+            v-bind:scope="item")
         kalix-separate
     component(:is="whichBizDialog" ref="kalixDialog"
     v-bind:formModel="formModel"
     v-bind:formRules="formRules")
+    component(:is="bizSearch" ref="bizSearchRef" v-if="bizSearch")
 </template>
 <script type="text/ecmascript-6">
   import KalixSeparate from 'base/separate'
@@ -25,9 +30,11 @@
   import KalixBaseToolBar from 'components/custom/baseToolBar.vue'
   import {PageConfig, SecurityBtnUrl} from 'config/global.toml'
   import EventBus from 'common/js/eventbus'
+  import {DictKeyValueObject} from 'common/keyValueObject'
   import {
     ON_SEARCH_BUTTON_CLICK,
-    ON_REFRESH_DATA
+    ON_REFRESH_DATA,
+    ON_OPEN_SEARCH
   } from './event.toml'
 
   export default {
@@ -141,22 +148,27 @@
       this.getData()
     },
     activated() {
-      console.log(this.bizKey + '  is activated')
       EventBus.$on(ON_SEARCH_BUTTON_CLICK, this.onSearchClick)
       EventBus.$on(ON_REFRESH_DATA, this.refresh)
-    },
-    deactivated() {
-      console.log(this.bizKey + '  is deactivated')
-      EventBus.$off(ON_SEARCH_BUTTON_CLICK)
-      EventBus.$off(ON_REFRESH_DATA)
-    },
-    mounted() {
+      EventBus.$on(ON_OPEN_SEARCH, this.openSearch)
       EventBus.$on(this.bizKey + '-' + 'KalixDialogClose', () => {
 //        console.log(`%c[kalix] reset ${this.bizKey} whichBizDialog`, 'background: #222;color: #bada55')
         this.whichBizDialog = ''
       })
     },
+    deactivated() {
+      console.log(this.bizKey + ' is deactivated')
+      EventBus.$off(ON_SEARCH_BUTTON_CLICK)
+      EventBus.$off(ON_REFRESH_DATA)
+      EventBus.$off(ON_OPEN_SEARCH)
+      EventBus.$off(this.bizKey + '-' + 'KalixDialogClose')
+    },
+    mounted() {
+    },
     methods: {
+      openSearch() {
+        this.$refs.bizSearchRef.$refs.kalixBizSearch.open()
+      },
       getData() {
         this.loading = true
         let _data = {
@@ -174,10 +186,14 @@
             item.isChecked = false
             return item
           })
+
+          if (this.dictDefine) { // 设置数据字典
+            this.setDictDefine(this.tableData)
+          }
         }).catch(() => {
           this.loading = false
           console.log('this.loading = false', this.tableData.length)
-          this.$router.push({path: '/login'})
+//          this.$router.push({path: '/login'})
         })
         this._validateButton()
       },
@@ -187,6 +203,8 @@
         })
       },
       btnClick(row, btnId) { // table工具栏点击事件
+        console.log('row', row)
+        console.log('btnId', btnId)
         switch (btnId) {
           case 'view': {
             let dig = this.bizDialog.filter((item) => {
@@ -312,7 +330,8 @@
                     return e
                   }
                 })
-                tmp.isShow = item.status  // 根据返回的权限确定按钮是否显示
+                tmp.isShow = true
+//                tmp.isShow = item.status  // 根据返回的权限确定按钮是否显示
               })
             })
           }
@@ -325,6 +344,26 @@
       refresh() { // 刷新表格数据
         console.log('[kalix] ' + this.title + ' refresh is trigger!')
         this.getData()
+      },
+      setDictDefine(_data) { // 处理数据字典
+        console.log('[_data]:', _data)
+        this.dictDefine.forEach((item) => {
+          //  获取 对应的键值对 对象
+          let _keyObj = DictKeyValueObject(item.cacheKey, item.type)
+          console.log('[kalix]-[baseTable.vue] dict should get key is ', _keyObj)
+          _data.forEach(function (e) {
+            //  检测 _keyObj 是否存在
+            if (_keyObj) {
+              // 替换对应的列值
+              e[item.targetField] = _keyObj[e[item.sourceField]]
+            }
+          })
+        })
+      },
+      onSearchClick(_searchParam) { // 查询按钮点击事件
+        console.log('查询按钮点击事件 [kalix] base table search clicked')
+        this.searchParam = _searchParam
+        this.refresh()
       }
     },
     components: {
@@ -345,6 +384,7 @@
   @import "~common/stylus/mixin"
   @import "~common/stylus/variable"
   .kalix-base-table
+    background-color $color-background
     .kalix-base-table-wrapper
       .cell
         font-size $font-size-medium

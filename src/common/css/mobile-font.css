@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'kalix-mobile-iconfont';  /* project id 446525 */
-  src: url('//at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.eot');
-  src: url('//at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.woff') format('woff'),
-  url('//at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.svg#kalix-mobile-iconfont') format('svg');
+  src: url('http://at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.eot');
+  src: url('http://at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.eot?#iefix') format('embedded-opentype'),
+  url('http://at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.woff') format('woff'),
+  url('http://at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.ttf') format('truetype'),
+  url('http://at.alicdn.com/t/font_446525_hnq0so0lq7rdx6r.svg#kalix-mobile-iconfont') format('svg');
 }
 
 .kalix-mobile-iconfont {

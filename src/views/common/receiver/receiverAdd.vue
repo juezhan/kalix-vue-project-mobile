@@ -7,15 +7,19 @@
   kalix-base-dialog(bizKey="receiver" ref="kalixBizDialog"
   v-bind:formModel.sync="formModel"
   v-bind:targetURL="targetURL")
-    div.kalix-cell(slot="dialogFormSlot")
-      el-form-item(label="收件人")
-        kalix-user-select(v-bind:params="params" style="width:100%"
-        v-model="receiverIds" v-bind:multiple="multiple"
-        v-on:userSelected="onUserSelected")
-      el-form-item(label="消息主题" prop="title" v-bind:rules="rules.title")
-        el-input(v-model="formModel.title")
-      el-form-item(label="消息内容" prop="content" v-bind:rules="rules.content")
-        el-input(v-model="formModel.content" type="textarea" v-bind:autosize="{ minRows: 4, maxRows: 8}")
+    div.kalix-gulp(slot="dialogFormSlot")
+      div.kalix-cells
+        div.kalix-cell
+          el-form-item(label="收件人")
+            kalix-user-select(v-bind:params="params" style="width:100%"
+            v-model="receiverIds" v-bind:multiple="multiple"
+            v-on:userSelected="onUserSelected")
+        div.kalix-cell
+          el-form-item(label="消息主题" prop="title" v-bind:rules="rules.title")
+            el-input(v-model="formModel.title")
+        div.kalix-cell
+          el-form-item(label="消息内容" prop="content" v-bind:rules="rules.content")
+            el-input(v-model="formModel.content" type="textarea" v-bind:autosize="{ minRows: 4, maxRows: 8}")
 </template>
 
 <script type="text/ecmascript-6">

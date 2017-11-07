@@ -95,7 +95,7 @@
   @import "~common/stylus/variable"
   @import "~common/stylus/mixin"
   .navigater
-    padding-top 40px
+    padding-top 46px
     .item
       position relative
       &:after

@@ -6,15 +6,16 @@
           div.weui-btn.weui-btn_mini.weui-btn_default {{item.name}}
           i.item-close(v-on:click.stop="closeItem(item)")
             x-icon.item-close-icon(type="ios-close" size="12")
-      x-button.user-select-btn_search(mini v-on:click.native="showParn")
-        x-icon(type="ios-search-strong" size="24")
+      div.user-select-btn_search(v-on:click="showParn")
+        div.weui-btn.weui-btn_default.user-select-btn_icon
+          x-icon(type="ios-search-strong" size="20")
     popup(v-model="showPopup" height="100%" ref="popup" v-bind:show-mask="false")
       group
         x-input(title="" ref="iptQuery" placeholder="请输入联系人" v-model="query" v-on:on-change="changeQuery")
       group(title="联系人列表")
         cell(v-for='item in userList' v-bind:title="item.name" v-bind:key="item.id" v-on:click.native="selectItem(item)")
           icon(type="success-no-circle")
-      x-button(v-on:click.native="closePopup") 关闭
+      div.weui-btn.weui-btn_default(v-on:click="closePopup") 关闭
 </template>
 <script type="text/ecmascript-6">
   import {usersURL} from 'views/admin/config.toml'
@@ -204,17 +205,20 @@
 </script>
 <style scoped lang="stylus" type="text/stylus">
   .kalix-user_select
+    padding 0 15px
+    box-sizing border-box
     .user-select-item
       width 100%
-      min-height 1.4em
+      min-height 40px
       font-size 0;
+      line-height 0
       .item
         position relative
         display inline-block
-        margin 0 10px 10px 0
+        margin 6px 10px 5px 0
         .item-close
           position: absolute;
-          line-height 0px
+          line-height 0
           padding: 6px;
           border-radius: 50%;
           top: -12px;
@@ -223,6 +227,18 @@
             fill: #ff0000
 
     .user-select-btn_search
-      font-size 0;
-      padding 6px;
+      font-size 0
+      line-height 0
+      margin-right -10px
+      padding 5px
+      height 40px
+      width 40px
+      display block
+      box-sizing border-box
+      .user-select-btn_icon
+        margin: 0;
+        padding: 5px;
+        font-size: 0;
+        display: inline-block;
+
 </style>

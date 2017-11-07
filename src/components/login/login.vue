@@ -21,7 +21,7 @@
 
 <script type="text/ecmascript-6">
   import './login.styl'
-  import Router from 'router'
+//  import Router from 'router'
   import {mapMutations} from 'vuex'
   import Message from 'common/message'
   import Cache from 'common/cache'
@@ -68,7 +68,7 @@
                   user_token: data.user.token,
                   user_id: data.user.id
                 })
-                Router.push({path: '/'})
+                this.$router.push({path: '/'})
               } else {
                 Message.error(data.message)
               }

@@ -7,6 +7,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import 'common/css/fa-font.css'
   import 'common/css/icon-font.css'
   import 'common/css/mobile-font.css'
   import MHeader from 'components/m-header/m-header'
