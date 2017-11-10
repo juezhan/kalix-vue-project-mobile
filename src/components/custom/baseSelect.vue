@@ -1,9 +1,11 @@
 <template lang="pug">
-  el-select(v-model="currentValue" v-bind:placeholder="placeholder" v-on:input="change($event)")
-    el-option(v-for="item in options"
-    v-bind:key="item[id]"
-    v-bind:label="item[label]"
-    v-bind:value="item[id]")
+  div.kalix-base-select
+    select(v-model="currentValue" v-on:input="change($event)")
+      option(v-for="item in options"
+      v-bind:key="item[id]"
+      v-bind:label="item[label]"
+      v-bind:value="item[id]")
+    div {{placeholder}}
 </template>
 <script type="text/ecmascript-6">
   import Cache from 'common/cache'

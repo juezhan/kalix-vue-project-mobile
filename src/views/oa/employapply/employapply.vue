@@ -6,7 +6,7 @@
 <template lang="pug">
   div
     keep-alive
-      kalix-base-table(
+      kalix-table(
       bizKey='employapply'
       title='入职申请列表'
       v-bind:targetURL='targetURL'
@@ -18,15 +18,9 @@
       v-bind:customTableTool="customTableTool"
       v-bind:dictDefine="dictDefine")
         template(slot="tableColumnSlot" slot-scope="scope")
-          div.s-flex.row
-            div.cell-label 人员类别：
-            div.s-flex_item {{scope.item.personCategoryName}}
-          div.s-flex.row
-            div.cell-label 申请部门：
-            div.s-flex_item {{scope.item.orgName}}
-          div.s-flex.row
-            div.cell-label 经办人：
-            div.s-flex_item {{scope.item.createBy}}
+          kalix-table-row(label="人员类别" v-bind:prop="scope.item.personCategoryName")
+          kalix-table-row(label="申请部门" v-bind:prop="scope.item.orgName")
+          kalix-table-row(label="经办人" v-bind:prop="scope.item.createBy")
     kalix-task-view(ref="kalixDialog")
 </template>
 

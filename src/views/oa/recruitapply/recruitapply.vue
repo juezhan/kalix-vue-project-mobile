@@ -10,21 +10,12 @@
       v-bind:bizDialog='bizDialog' bizSearch='OaRecruitApplySearch' v-bind:btnList='btnList'
       v-bind:isFixedColumn="isFixedColumn" v-bind:customTableTool="customTableTool"
       v-bind:dictDefine="dictDefine")
-        template(slot="tableColumnSlot")
-          kalix-biz-no-column // 业务编号
-          el-table-column(prop="title" label="名称" align="center" width="220")
-          kalix-date-column(prop="creationDate" label="创建时间")
-          el-table-column(prop="orgName" label="申请部门" align="center" width="220")
-          kalix-date-column(prop="applyDate" label="申请时间")
-          el-table-column(prop="reasonName" label="用工原因" align="center" width="220")
-          el-table-column(prop="positionName" label="职位名称" align="center" width="220")
-          el-table-column(prop="recruitCount" label="拟聘人数" align="center" width="220")
-          el-table-column(prop="treatmentLevel" label="待遇标准" align="center" width="220")
-          el-table-column(prop="coreRecruit" label="核心职责" align="center" width="220")
-          el-table-column(prop="createBy" label="经办人" align="center" width="90")
-          el-table-column(prop="auditResult" label="审批结果" align="center" width="220")
-          el-table-column(prop="currentNode" label="当前环节" align="center" width="220")
-          kalix-process-status-column
+        template(slot="tableColumnSlot" slot-scope="scope")
+          kalix-table-row(label="名称" v-bind:prop="scope.item.title")
+          kalix-table-row(label="申请部门" v-bind:prop="scope.item.orgName")
+          kalix-table-row(label="申请时间" v-bind:prop="scope.item.applyDate")
+          kalix-table-row(label="用工原因" v-bind:prop="scope.item.reasonName")
+          kalix-table-row(label="职位名称" v-bind:prop="scope.item.positionName")
     kalix-task-view(ref="kalixDialog")
 </template>
 

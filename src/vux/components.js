@@ -11,7 +11,8 @@ import {
   XButton,
   Flexbox,
   FlexboxItem,
-  Popup
+  Popup,
+  PopupPicker
 } from 'vux'
 
 Vue.component('cell', Cell)
@@ -26,3 +27,4 @@ Vue.component('XButton', XButton)
 Vue.component('Flexbox', Flexbox)
 Vue.component('FlexboxItem', FlexboxItem)
 Vue.component('Popup', Popup)
+Vue.component('PopupPicker', PopupPicker)

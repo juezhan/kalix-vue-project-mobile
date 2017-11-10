@@ -138,7 +138,8 @@
     width 100%
     height 100%
     z-index 99
-    background-color #fff
+    overflow-y auto
+    background-color $color-border-b
     .kalix-base_dialog_wrapper
       padding-top 46px
     .kalix-base_dialog_ft
@@ -156,6 +157,7 @@
           padding 0 6px
           .kalix-base_dialog_ft_btn
             width 100%
+
 
 
 </style>

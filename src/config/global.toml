@@ -1,7 +1,7 @@
 # 全局变量配置文件
 
 cacheTime = 7200000 #缓存校验时间
-baseURL = "http://localhost:8181"
+baseURL = "http://192.168.1.109:8181"
 
 systemApplicationsBaseURL = "/camel/rest/system/applications/"
 loginUrl = "/login.jsp"
@@ -65,6 +65,12 @@ orgURL = "/camel/rest/orgs"
 [[GlobalComponent]]
   path = "./components/custom/baseDialog"
   name = "kalix-dialog"
+[[GlobalComponent]]
+  path = "./components/custom/baseTable"
+  name = "kalix-table"
+[[GlobalComponent]]
+  path = "./components/custom/baseTableRow"
+  name = "kalix-table-row"
 #[[GlobalComponent]]
 #  path = "./components/table/wrapper"
 #  name = "kalix-wrapper"
